@@ -45,7 +45,7 @@
                                         @csrf
                                         @method('DELETE')
                                         <button class="btn btn-link" type="submit">Delete</button>
-                                    </form></div><div style="display:inline-block;">&nbsp;&nbsp;{!! \App\Company::findOrFail($application->company_id)->name; !!} (Company code: {!! \App\Company::findOrFail($application->company_id)->code; !!})</div>
+                                    </form></div><div style="display:inline-block;">&nbsp;&nbsp;{!! \App\Models\Company::findOrFail($application->company_id)->name; !!} (Company code: {!! \App\Models\Company::findOrFail($application->company_id)->code; !!})</div>
                                 </div>
                             </div>
                         @empty

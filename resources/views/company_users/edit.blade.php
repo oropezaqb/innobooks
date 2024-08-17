@@ -15,21 +15,51 @@
                                 @endif
                                 <p>User Name: {!! $user->name !!}</p>
                                 <p>Roles:</p>
-                                @forelse ($roles as $role)
-                                    &nbsp;&nbsp;&nbsp;&nbsp;
-                                    {!! Form::checkbox('role[]', $role->id, $checkedRoles->contains('id', $role->id) ? 'true' : '') !!}
-                                    <span style='margin-left:1em;'></span>
-                                    {!! Form::label($role->id, $role->name) !!}
-                                    <br>
-                                @empty
-                                    <p>No roles recorded yet.</p>
-                                @endforelse
+
                                 <input type="hidden" id="id" name="id" value="{{ $user->id }}">
+    <div id="jqxgrid"></div>
                                 <button class="btn btn-primary" type="submit">Save</button>
                                 @error('')
                                     <p class="help is-danger">{{ $message }}</p>
                                 @enderror
                             </form>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            // Define the data source
+            var data = [
+                { "id": "1", "name": "John Doe", "age": "30" },
+                { "id": "2", "name": "Jane Doe", "age": "25" },
+                { "id": "3", "name": "Mark Smith", "age": "40" },
+                { "id": "4", "name": "Lucy Brown", "age": "22" }
+            ];
+
+            var source = {
+                localdata: data,
+                datatype: "array",
+                datafields: [
+                    { name: 'id', type: 'string' },
+                    { name: 'name', type: 'string' },
+                    { name: 'age', type: 'number' }
+                ]
+            };
+
+            var dataAdapter = new $.jqx.dataAdapter(source);
+
+            // Initialize jqxGrid
+            $("#jqxgrid").jqxGrid({
+                width: 600,
+                height: 400,
+                source: dataAdapter,
+                pageable: true,
+                sortable: true,
+                columns: [
+                    { text: 'ID', datafield: 'id', width: 100 },
+                    { text: 'Name', datafield: 'name', width: 250 },
+                    { text: 'Age', datafield: 'age', width: 100 }
+                ]
+            });
+        });
+    </script>
                         </div>
                     </div>
                 </div>
