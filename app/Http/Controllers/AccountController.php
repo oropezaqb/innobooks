@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Account;
+use App\Models\Account;
 use Illuminate\Http\Request;
-use App\LineItem;
+use App\Models\LineItem;
 
     /**
      * @SuppressWarnings(PHPMD.ElseExpression)
@@ -14,9 +14,9 @@ class AccountController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
-        $this->middleware('company');
-        $this->middleware('web');
+//        $this->middleware('auth');
+//        $this->middleware('company');
+//        $this->middleware('web');
     }
     public function index()
     {
@@ -50,7 +50,7 @@ class AccountController extends Controller
         $this->validateAccount();
         $company = \Auth::user()->currentCompany->company;
         $subsidiaryLedger = false;
-        if (request('subsidiary_ledger') == 1) {
+        if (request('subsidiary_ledger') == "on") {
             $subsidiaryLedger = true;
         }
         $account = new Account([

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\LineItem;
+use App\Models\LineItem;
 use Illuminate\Http\Request;
 
     /**
@@ -14,9 +14,9 @@ class LineItemController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
-        $this->middleware('company');
-        $this->middleware('web');
+//        $this->middleware('auth');
+//        $this->middleware('company');
+//        $this->middleware('web');
     }
     public function index()
     {
