@@ -7,7 +7,7 @@
                 <div id="wrapper">
                     <div id="page" class="container">
                         <div id="content">
-                            <form method="POST" action="/roles/{{ $role->id }}">
+                            <form method="POST" action="/roles/{{ $role->id }}" id="rolesForm">
                                 @csrf
                                 @method('PUT')
                                 @if (!empty($message))
@@ -15,10 +15,10 @@
                                 @endif
                                 <div class="form-group">
                                     <label for="name">Role Name: </label>
-                                    <input 
-                                        class="form-control @error('name') is-danger @enderror" 
-                                        type="text" 
-                                        name="name" 
+                                    <input
+                                        class="form-control @error('name') is-danger @enderror"
+                                        type="text"
+                                        name="name"
                                         id="name" required
                                         value="{{ $role->name }}">
                                     @error('name')
@@ -26,15 +26,9 @@
                                     @enderror
                                 </div>
                                 <p>Abilities:</p>
-                                @forelse ($abilities as $ability)
-                                    &nbsp;&nbsp;&nbsp;&nbsp;
-                                    {!! Form::checkbox('ability[]', $ability->id, $checkedAbilities->contains('id', $ability->id) ? 'true' : '') !!}
-                                    <span style='margin-left:1em;'></span>
-                                    {!! Form::label($ability->id, $ability->name) !!}
-                                    <br>
-                                @empty
-                                    <p>No abilities recorded yet.</p>
-                                @endforelse
+                                <div id="jqxgrid"></div>
+                                <input type="hidden" name="abilitiesInput" id="abilitiesInput">
+                                <br>
                                 <button class="btn btn-primary" type="submit">Save</button>
                                 @error('name')
                                     <p class="help is-danger">{{ $message }}</p>
@@ -46,4 +40,52 @@
             </div>
         </div>
     </div>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var abilities = @json($abilities);
+            var checkedAbilities = @json($checkedAbilities);
+
+            // Create a dictionary for quick lookup
+            var checkedAbilitiesDict = checkedAbilities.reduce((dict, ability) => {
+                dict[ability.id] = true;
+                return dict;
+            }, {});
+
+            // Prepare data for jqxGrid
+            var data = abilities.map(function(ability) {
+                return {
+                    id: ability.id,
+                    name: ability.name,
+                    checked: checkedAbilitiesDict[ability.id] === true // Lookup in dictionary
+                };
+            });
+
+            // Initialize jqxGrid
+            $("#jqxgrid").jqxGrid({
+                width: '100%',
+                autoheight: true,
+                source: new $.jqx.dataAdapter({
+                    localdata: data,
+                    datatype: "array"
+                }),
+                columns: [
+                    { text: 'Select', datafield: 'checked', columntype: 'checkbox', width: 50, editable: true },
+                    { text: 'Ability', datafield: 'name', width: 250 }
+                ],
+                editable: true
+            });
+
+            // Update hidden input with selected roles on form submission
+            $("#rolesForm").submit(function (e) {
+                var selectedRows = [];
+                var rows = $("#jqxgrid").jqxGrid('getrows');
+                for (var i = 0; i < rows.length; i++) {
+                    if (rows[i].checked) {
+                        selectedRows.push(rows[i].id);
+                    }
+                }
+                $("#abilitiesInput").val(selectedRows.join(","));
+            });
+        });
+    </script>
 @endsection
