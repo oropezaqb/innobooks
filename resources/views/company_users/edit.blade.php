@@ -15,31 +15,39 @@
                                 @endif
                                 <p>User Name: {!! $user->name !!}</p>
                                 <p>Roles:</p>
-
                                 <input type="hidden" id="id" name="id" value="{{ $user->id }}">
-    <div id="jqxgrid"></div>
+                                <div id="jqxgrid"></div>
+                                <br>
                                 <button class="btn btn-primary" type="submit">Save</button>
                                 @error('')
                                     <p class="help is-danger">{{ $message }}</p>
                                 @enderror
                             </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <script type="text/javascript">
         $(document).ready(function () {
-            // Define the data source
-            var data = [
-                { "id": "1", "name": "John Doe", "age": "30" },
-                { "id": "2", "name": "Jane Doe", "age": "25" },
-                { "id": "3", "name": "Mark Smith", "age": "40" },
-                { "id": "4", "name": "Lucy Brown", "age": "22" }
-            ];
+            // Convert PHP roles variable to JavaScript array
+            var rolesData = @json($roles);
+
+            // Transform data to fit jqxGrid requirements
+            var data = rolesData.map(function(role) {
+                return {
+                    id: role.id,
+                    name: role.name
+                };
+            });
 
             var source = {
                 localdata: data,
                 datatype: "array",
                 datafields: [
                     { name: 'id', type: 'string' },
-                    { name: 'name', type: 'string' },
-                    { name: 'age', type: 'number' }
+                    { name: 'name', type: 'string' }
                 ]
             };
 
@@ -47,23 +55,16 @@
 
             // Initialize jqxGrid
             $("#jqxgrid").jqxGrid({
-                width: 600,
+                width: '100%',
                 height: 400,
                 source: dataAdapter,
                 pageable: true,
                 sortable: true,
                 columns: [
-                    { text: 'ID', datafield: 'id', width: 100 },
-                    { text: 'Name', datafield: 'name', width: 250 },
-                    { text: 'Age', datafield: 'age', width: 100 }
+                    { text: 'ID', datafield: 'id', width: 150 },
+                    { text: 'Role Name', datafield: 'name', width: 450 }
                 ]
             });
         });
     </script>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 @endsection

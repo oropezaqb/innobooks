@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
+import path from 'path';
 
 export default defineConfig({
     plugins: [
@@ -11,4 +12,10 @@ export default defineConfig({
             refresh: true,
         }),
     ],
+    resolve: {
+        alias: {
+            // Create an alias for jQWidgets to make it easier to import in your JS files
+            '@jqwidgets': path.resolve(__dirname, 'node_modules/jqwidgets-scripts/jqwidgets'),
+        },
+    },
 });
