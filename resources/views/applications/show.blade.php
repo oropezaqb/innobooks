@@ -11,8 +11,8 @@
                     >
                         <div id="content">
                             <div id="name">
-                                <p>Company Name: {!! \App\Company::findOrFail($application->company_id)->name; !!}</p>
-                                <p>Company Code: {!! \App\Company::findOrFail($application->company_id)->code; !!}</p>
+                                <p>Company Name: {!! \App\Models\Company::findOrFail($application->company_id)->name; !!}</p>
+                                <p>Company Code: {!! \App\Models\Company::findOrFail($application->company_id)->code; !!}</p>
                             </div>
                             <div style="display:inline-block;"><button class="btn btn-primary" onclick="location.href = '/applications/{{ $application->id }}/edit';">Edit</button></div>
                             <div style="display:inline-block;"><form method="POST" action="/applications/{{ $application->id }}">
