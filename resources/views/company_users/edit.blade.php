@@ -7,7 +7,7 @@
                 <div id="wrapper">
                     <div id="page" class="container">
                         <div id="content">
-                            <form method="POST" action="/company_users/{{ $user->id }}">
+                            <form method="POST" action="/company_users/{{ $user->id }}" id="rolesForm">
                                 @csrf
                                 @method('PUT')
                                 @if (!empty($message))
@@ -16,7 +16,8 @@
                                 <p>User Name: {!! $user->name !!}</p>
                                 <p>Roles:</p>
                                 <input type="hidden" id="id" name="id" value="{{ $user->id }}">
-                                <div id="jqxgrid"></div>
+                                <div id="rolesGrid"></div>
+                                <input type="hidden" name="rolesInput" id="rolesInput">
                                 <br>
                                 <button class="btn btn-primary" type="submit">Save</button>
                                 @error('')
@@ -31,39 +32,49 @@
     </div>
     <script type="text/javascript">
         $(document).ready(function () {
-            // Convert PHP roles variable to JavaScript array
-            var rolesData = @json($roles);
+            var roles = @json($roles);
+            var checkedRoles = @json($checkedRoles);
 
-            // Transform data to fit jqxGrid requirements
-            var data = rolesData.map(function(role) {
+            // Create a dictionary for quick lookup
+            var checkedRolesDict = checkedRoles.reduce((dict, role) => {
+                dict[role.id] = true;
+                return dict;
+            }, {});
+
+            // Prepare data for jqxGrid
+            var data = roles.map(function(role) {
                 return {
                     id: role.id,
-                    name: role.name
+                    name: role.name,
+                    checked: checkedRolesDict[role.id] === true // Lookup in dictionary
                 };
             });
 
-            var source = {
-                localdata: data,
-                datatype: "array",
-                datafields: [
-                    { name: 'id', type: 'string' },
-                    { name: 'name', type: 'string' }
-                ]
-            };
-
-            var dataAdapter = new $.jqx.dataAdapter(source);
-
             // Initialize jqxGrid
-            $("#jqxgrid").jqxGrid({
+            $("#rolesGrid").jqxGrid({
                 width: '100%',
-                height: 400,
-                source: dataAdapter,
-                pageable: true,
-                sortable: true,
+                autoheight: true,
+                source: new $.jqx.dataAdapter({
+                    localdata: data,
+                    datatype: "array"
+                }),
                 columns: [
-                    { text: 'ID', datafield: 'id', width: 150 },
-                    { text: 'Role Name', datafield: 'name', width: 450 }
-                ]
+                    { text: 'Select', datafield: 'checked', columntype: 'checkbox', width: 50, editable: true },
+                    { text: 'Role', datafield: 'name', width: 250 }
+                ],
+                editable: true
+            });
+
+            // Update hidden input with selected roles on form submission
+            $("#rolesForm").submit(function (e) {
+                var selectedRoles = [];
+                var rows = $("#rolesGrid").jqxGrid('getrows');
+                for (var i = 0; i < rows.length; i++) {
+                    if (rows[i].checked) {
+                        selectedRoles.push(rows[i].id);
+                    }
+                }
+                $("#rolesInput").val(selectedRoles.join(","));
             });
         });
     </script>

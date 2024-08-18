@@ -126,8 +126,9 @@ return new class extends Migration
         Schema::create('accounts', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('company_id');
-            $table->unsignedBigInteger('number')->unique();
-            $table->string('title')->unique;
+            $table->unsignedBigInteger('number');
+            $table->string('title');
+            $table->unique(['company_id', 'title']);
             $table->enum('type',
             [
                 '110 - Cash and Cash Equivalents',

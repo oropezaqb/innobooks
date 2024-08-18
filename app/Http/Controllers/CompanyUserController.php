@@ -8,6 +8,7 @@ use App\Models\Role;
 use App\Models\Company;
 use App\Models\Application;
 use App\Models\CompanyUser;
+use Illuminate\Support\Facades\DB;
 
     /**
      * @SuppressWarnings(PHPMD.ElseExpression)
@@ -65,7 +66,9 @@ class CompanyUserController extends Controller
     public function update(Request $request)
     {
         $user = User::find(request('id'));
-        $roles = $request->input('role');
+        $idArray = explode(',', $request->input('rolesInput'));
+        $idArray = array_map('intval', $idArray);
+        $roles = Role::whereIn('id', $idArray)->get();
         $user->roles()->detach();
         if (isset($roles)) {
             foreach ($roles as $role) {
@@ -73,5 +76,13 @@ class CompanyUserController extends Controller
             }
         }
         return redirect(route('company_users.show', request('id')));
+    }
+    public function destroy($id)
+    {
+        $user = User::find($id);
+        $user->roles()->detach();
+        $company = \Auth::user()->currentCompany->company()->firstOrFail();
+        DB::table('company_user')->where([['user_id','=',$user->id],['company_id','=',$company->id]])->delete();
+        return redirect(route('company_users.index'));
     }
 }

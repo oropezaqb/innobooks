@@ -36,6 +36,11 @@
                                 <div id="name">
                                     <div style="display:inline-block;"><button class="btn btn-link" onclick="location.href = '/company_users/{{ $companyUser->id }}';">View</button></div>
                                     <div style="display:inline-block;"><button class="btn btn-link" onclick="location.href = '/company_users/{{ $companyUser->id }}/edit';">Edit</button></div>
+                                    <div style="display:inline-block;"><form method="POST" action="/company_users/{{ $companyUser->id }}">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class="btn btn-link" type="submit">Delete</button>
+                                    </form></div>
                                     <div style="display:inline-block;">&nbsp;&nbsp;{!! $companyUser->name !!}</div>
                                 </div>
                             </div>
