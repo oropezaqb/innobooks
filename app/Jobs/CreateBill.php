@@ -2,16 +2,16 @@
 
 namespace App\Jobs;
 
-use App\Supplier;
-use App\Account;
-use App\Product;
-use App\Purchase;
-use App\Document;
-use App\JournalEntry;
-use App\Posting;
-use App\SubsidiaryLedger;
-use App\BillItemLine;
-use App\BillCategoryLine;
+use App\Models\Supplier;
+use App\Models\Account;
+use App\Models\Product;
+use App\Models\Purchase;
+use App\Models\Document;
+use App\Models\JournalEntry;
+use App\Models\Posting;
+use App\Models\SubsidiaryLedger;
+use App\Models\BillItemLine;
+use App\Models\BillCategoryLine;
 
 class CreateBill
 {

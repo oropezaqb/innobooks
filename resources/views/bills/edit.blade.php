@@ -460,7 +460,7 @@
                                             var b = categoryLine['description'];
                                             var c = categoryLine['amount'];
                                             var d = categoryLine['input_tax'];
-                                            var e = <?php echo json_encode(\App\Account::where('id', $categoryLine->account_id)->firstOrFail()->title); ?>;
+                                            var e = <?php echo json_encode(\App\Models\Account::where('id', $categoryLine->account_id)->firstOrFail()->title); ?>;
                                             if(a == null) {a = "";}
                                             if(b == null) {b = "";}
                                             if(c == null) {c = "";}
@@ -501,7 +501,7 @@
                                             var c = itemLine['quantity'];
                                             var d = itemLine['amount'];
                                             var e = itemLine['input_tax'];
-                                            var f = <?php echo json_encode(\App\Product::where('id', $itemLine->product_id)->firstOrFail()->name); ?>;
+                                            var f = <?php echo json_encode(\App\Models\Product::where('id', $itemLine->product_id)->firstOrFail()->name); ?>;
                                             if(a == null) {a = "";}
                                             if(b == null) {b = "";}
                                             if(c == null) {c = "";}

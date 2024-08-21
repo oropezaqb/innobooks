@@ -24,29 +24,9 @@
                                         </ul>
                                     </div>
                                 @endif
-                                <datalist id="supplier_ids">
-                                    @foreach ($suppliers as $supplier)
-                                        <option data-value={{ $supplier->id }}>{{ $supplier->name }}</option>
-                                    @endforeach
-                                </datalist>
-                                <datalist id="account_ids">
-                                    @foreach ($accounts as $account)
-                                        <option data-value={{ $account->id }}>{{ $account->title }} ({{ $account->number }})</option>
-                                    @endforeach
-                                </datalist>
-                                <datalist id="product_ids">
-                                    @foreach ($products as $product)
-                                        <option data-value={{ $product->id }}>{{ $product->name }}</option>
-                                    @endforeach
-                                </datalist>
                                 <div class="form-group custom-control-inline">
                                     <label for="supplier_id">Supplier</label>&nbsp;
                                     <input list="supplier_ids" id="supplier_id0" onchange="setValue(this)" data-id="" class="custom-select @error('supplier_id') is-danger @enderror" required value="{!! old('supplier_name', $bill->supplier->name) !!}">
-                                    <datalist id="supplier_ids">
-                                        @foreach ($suppliers as $supplier)
-                                            <option data-value="{{ $supplier->id }}">{{ $supplier->name }}</option>
-                                        @endforeach
-                                    </datalist>
                                     <input type="hidden" name="supplier_id" id="supplier_id0-hidden" value="{!! old('supplier_id', $bill->supplier_id) !!}">
                                     <input type="hidden" name="supplier_name" id="name-supplier_id0-hidden" value="{!! old('supplier_name', $bill->supplier->name) !!}">
                                 </div>
@@ -471,7 +451,7 @@
                                             var b = categoryLine['description'];
                                             var c = categoryLine['amount'];
                                             var d = categoryLine['input_tax'];
-                                            var e = <?php echo json_encode(\App\Account::where('id', $categoryLine->account_id)->firstOrFail()->title); ?>;
+                                            var e = <?php echo json_encode(\App\Models\Account::where('id', $categoryLine->account_id)->firstOrFail()->title); ?>;
                                             if(a == null) {a = "";}
                                             if(b == null) {b = "";}
                                             if(c == null) {c = "";}
@@ -512,7 +492,7 @@
                                             var c = itemLine['quantity'];
                                             var d = itemLine['amount'];
                                             var e = itemLine['input_tax'];
-                                            var f = <?php echo json_encode(\App\Product::where('id', $itemLine->product_id)->firstOrFail()->name); ?>;
+                                            var f = <?php echo json_encode(\App\Models\Product::where('id', $itemLine->product_id)->firstOrFail()->name); ?>;
                                             if(a == null) {a = "";}
                                             if(b == null) {b = "";}
                                             if(c == null) {c = "";}

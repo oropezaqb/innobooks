@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -13,7 +13,7 @@ class Bill extends Model
     }
     public function categoryLines()
     {
-        return $this->hasMany(BillCategoryLine::class);
+        return $this->hasMany(\App\Models\BillCategoryLine::class);
     }
     public function itemLines()
     {
@@ -25,27 +25,27 @@ class Bill extends Model
     }
     public function purchases()
     {
-        return $this->morphMany('App\Purchase', 'purchasable');
+        return $this->morphMany('App\Models\Purchase', 'purchasable');
     }
     public function journalEntry()
     {
-        return $this->morphOne('App\JournalEntry', 'journalizable');
+        return $this->morphOne('App\Models\JournalEntry', 'journalizable');
     }
     public function supplierCredits()
     {
-        return $this->morphMany('App\SupplierCredit', 'purchasable');
+        return $this->morphMany('App\Models\SupplierCredit', 'purchasable');
     }
     public function supplierCreditCLine()
     {
-        return $this->morphMany('App\SupplierCreditCLine', 'purchasable');
+        return $this->morphMany('App\Models\SupplierCreditCLine', 'purchasable');
     }
     public function supplierCreditILine()
     {
-        return $this->morphMany('App\SupplierCreditILine', 'purchasable');
+        return $this->morphMany('App\Models\SupplierCreditILine', 'purchasable');
     }
     public function purchaseReturns()
     {
-        return $this->morphMany('App\PurchaseReturn', 'purchasable');
+        return $this->morphMany('App\Models\PurchaseReturn', 'purchasable');
     }
     public function delete()
     {

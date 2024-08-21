@@ -3,8 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Account;
-use App\Product;
+use App\Models\Account;
+use App\Models\Product;
 
     /**
      * @SuppressWarnings(PHPMD.ElseExpression)
@@ -40,7 +40,7 @@ class StoreBill extends FormRequest
     public function rules()
     {
         return [
-            'supplier_id' => ['required', 'exists:App\Supplier,id'],
+            'supplier_id' => ['required', 'exists:App\Models\Supplier,id'],
             'bill_date' => ['required', 'date'],
             'due_date' => ['required', 'date'],
             'bill_number' => ['required', 'min:1'],
