@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Query;
+use App\Models\Query;
 use Illuminate\Http\Request;
 use PDO;
-use App\Ability;
+use App\Models\Ability;
 use Illuminate\Support\Facades\Validator;
 use App\EPMADD\DbAccess;
 
@@ -18,9 +18,9 @@ class QueryController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
-        $this->middleware('company');
-        $this->middleware('web');
+//        $this->middleware('auth');
+//        $this->middleware('company');
+//        $this->middleware('web');
     }
     public function index()
     {
@@ -42,9 +42,9 @@ class QueryController extends Controller
         $abilities = Ability::latest()->get();
         return view('queries.create', compact('abilities'));
     }
-    public function show(ReportLineItem $reportLineItem)
+    public function show(Query $query)
     {
-        return view('report_line_items.show', compact('reportLineItem'));
+        return view('queries.show', compact('query'));
     }
     public function store(Request $request)
     {
@@ -56,7 +56,7 @@ class QueryController extends Controller
             'title' => ['required'],
             'category' => ['required'],
             'query' => ['required'],
-            'ability_id' => ['required', 'exists:App\Ability,id'],
+            'ability_id' => ['required', 'exists:App\Models\Ability,id'],
         ], $messages);
 
         $validator->after(function ($validator) {

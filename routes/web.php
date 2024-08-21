@@ -26,6 +26,7 @@ use App\Http\Controllers\CreditNoteController;
 use App\Http\Controllers\SupplierCreditController;
 use App\Http\Controllers\InventoryQtyAdjController;
 use App\Http\Controllers\CashReceiptController;
+use App\Http\Controllers\QueryController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\CheckCurrentCompany;
 
@@ -91,9 +92,9 @@ Route::middleware(['auth', 'web'])->group(function () {
 });
 
 Route::middleware(['auth', 'web'])->group(function () {
-    Route::resource('queries', 'QueryController')->middleware(CheckCurrentCompany::class);
+    Route::resource('queries', QueryController::class)->middleware(CheckCurrentCompany::class);
 
-    Route::post('/queries/{query}/run', 'QueryController@run')->name('queries.run')->middleware(CheckCurrentCompany::class);
+    Route::post('/queries/{query}/run', [QueryController::class, 'run'])->name('queries.run')->middleware(CheckCurrentCompany::class);
     Route::post('/reports/{query}/screen', 'ReportController@screen')->name('reports.screen')->middleware(CheckCurrentCompany::class);
     Route::post('/reports/{query}/pdf', 'ReportController@pdf')->name('reports.pdf')->middleware(CheckCurrentCompany::class);
     Route::post('/reports/{query}/csv', 'ReportController@csv')->name('reports.csv')->middleware(CheckCurrentCompany::class);
