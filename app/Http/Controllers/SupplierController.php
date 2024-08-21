@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\CurrentCompany;
-use App\Supplier;
+use App\Models\CurrentCompany;
+use App\Models\Supplier;
 
     /**
      * @SuppressWarnings(PHPMD.ElseExpression)
@@ -14,9 +14,9 @@ class SupplierController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
-        $this->middleware('web');
-        $this->middleware('company');
+//        $this->middleware('auth');
+//        $this->middleware('web');
+//        $this->middleware('company');
     }
     public function index()
     {

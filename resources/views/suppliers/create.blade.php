@@ -2,7 +2,7 @@
 @section('content')
     <div class="col-md-12">
         <div class="card">
-            <div class="card-header font-weight-bold">Add a New Supplier</div>
+            <div class="card-header font-weight-bold">Company: {{ \Auth::user()->currentCompany->company->name }} (Add a New Supplier)</div>
             <div class="card-body">
                 @if (session('status'))
                     <div class="alert alert-success" role="alert">
