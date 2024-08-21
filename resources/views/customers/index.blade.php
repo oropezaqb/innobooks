@@ -14,6 +14,24 @@
                         id="page"
                         class="container"
                     >
+                        <h6 class="font-weight-bold">Search</h6>
+                        <form method="GET" action="/customers">
+                            @csrf
+                            <div class="form-group">
+                                <label for="supplier_name">Customer Name: </label>
+                                <input
+                                    class="form-control @error('supplier_name') is-danger @enderror"
+                                    type="text"
+                                    name="customer_name"
+                                    id="customer_name" required
+                                    value="{{ old('customer_name') }}">
+                                @error('customer_name')
+                                    <p class="help is-danger">{{ $message }}</p>
+                                @enderror
+                            </div>
+                            <button class="btn btn-primary" type="submit">Search</button>
+                        </form>
+                        <br>
                         <h6 class="font-weight-bold">Add</h6>
                         <p>Want to add a new customer? Click <a href="{{ url('/customers/create') }}">here</a>!</p>
                         <p></p>

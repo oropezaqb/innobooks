@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Customer;
+use App\Models\Customer;
 use Illuminate\Http\Request;
-use App\CurrentCompany;
+use App\Models\CurrentCompany;
 
     /**
      * @SuppressWarnings(PHPMD.ElseExpression)
@@ -14,9 +14,9 @@ class CustomerController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
-        $this->middleware('web');
-        $this->middleware('company');
+//        $this->middleware('auth');
+//        $this->middleware('web');
+//        $this->middleware('company');
     }
     public function index()
     {
