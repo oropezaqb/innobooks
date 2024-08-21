@@ -80,22 +80,47 @@ class QueryController extends Controller
         $query->save();
         return redirect(route('queries.index'));
     }
-    public function edit(ReportLineItem $reportLineItem)
+    public function edit(Query $query)
     {
-        if (\Route::currentRouteName() === 'report_line_items.edit') {
+        if (\Route::currentRouteName() === 'queries.edit') {
             \Request::flash();
         }
-        return view('report_line_items.edit', compact('reportLineItem'));
+        $abilities = Ability::latest()->get();
+        return view('queries.edit', compact('query', 'abilities'));
     }
-    public function update(ReportLineItem $reportLineItem)
+    public function update(Request $request, $id)
     {
-        $this->validateReportLineItem();
-        $reportLineItem->update([
-            'report' => request('report'),
-            'section' => request('section'),
-            'line_item' => request('line_item')
+        $messages = [
+            'ability_id.exists' => 'The selected ability is invalid. Please choose among the recommended items.',
+        ];
+
+        $validator = Validator::make($request->all(), [
+            'title' => ['required'],
+            'category' => ['required'],
+            'query' => ['required'],
+            'ability_id' => ['required', 'exists:App\Models\Ability,id'],
+        ], $messages);
+
+        $validator->after(function ($validator) {
+            if (stripos(request('query'), 'select ') !== 0 && stripos(request('query'), 'file ') !== 0) {
+                $validator->errors()->add('query', 'Only select or file queries are allowed.');
+            }
+        });
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+
+        $company = \Auth::user()->currentCompany->company;
+        $query = Query::findOrFail($id);
+        $query->update([
+            'company_id' => $company->id,
+            'title' => request('title'),
+            'category' => request('category'),
+            'query' => request('query'),
+            'ability_id' => request('ability_id')
         ]);
-        return redirect($reportLineItem->path());
+        return redirect($query->path());
     }
     public function destroy(Query $query)
     {

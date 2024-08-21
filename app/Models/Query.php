@@ -11,4 +11,8 @@ class Query extends Model
     {
         return route('queries.show', $this);
     }
+    public function ability()
+    {
+        return $this->belongsTo(Ability::class);
+    }
 }
