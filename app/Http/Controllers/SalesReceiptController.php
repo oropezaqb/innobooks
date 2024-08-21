@@ -2,19 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\SalesReceipt;
+use App\Models\SalesReceipt;
 use Illuminate\Http\Request;
-use App\Customer;
-use App\Account;
-use App\Product;
+use App\Models\Customer;
+use App\Models\Account;
+use App\Models\Product;
 use Illuminate\Support\Facades\Validator;
 use JavaScript;
-use App\SalesReceiptItemLine;
+use App\Models\SalesReceiptItemLine;
 use App\Http\Requests\StoreSalesReceipt;
-use App\Purchase;
-use App\Sale;
+use App\Models\Purchase;
+use App\Models\Sale;
 use App\Jobs\CreateSalesReceipt;
-use App\Transaction;
+use App\Models\Transaction;
 
     /**
      * @SuppressWarnings(PHPMD.ElseExpression)
@@ -27,10 +27,10 @@ class SalesReceiptController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
-        $this->middleware('company');
-        $this->middleware('web');
-        $this->middleware('outputVat');
+//        $this->middleware('auth');
+//        $this->middleware('company');
+//        $this->middleware('web');
+//        $this->middleware('outputVat');
     }
     public function index()
     {
@@ -155,7 +155,7 @@ class SalesReceiptController extends Controller
                 $createSalesReceipt->updateLines($salesReceipt);
                 $createSalesReceipt->updateSales($salesForUpdate);
             });
-            return redirect(route('sales_receipts.edit', [$salesReceipt]))
+            return redirect(route('sales_receipts.show', [$salesReceipt]))
                 ->with('status', 'Sales receipt updated!');
         } catch (\Exception $e) {
             return back()->with('status', $this->translateError($e))->withInput();

@@ -3,8 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Account;
-use App\Product;
+use App\Models\Account;
+use App\Models\Product;
 use App\Http\Requests\StoreBill;
 
     /**
@@ -43,10 +43,10 @@ class StoreSalesReceipt extends FormRequest
     public function rules()
     {
         return [
-            'customer_id' => ['required', 'exists:App\Customer,id'],
+            'customer_id' => ['required', 'exists:App\Models\Customer,id'],
             'date' => ['required', 'date'],
             'number' => ['required', 'min:1'],
-            'account_id' => ['required', 'exists:App\Account,id'],
+            'account_id' => ['required', 'exists:App\Models\Account,id'],
             "item_lines.'product_id'" => ['sometimes'],
             "item_lines.'product_id'.*" => [
                 'sometimes'
