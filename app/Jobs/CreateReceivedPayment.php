@@ -2,15 +2,15 @@
 
 namespace App\Jobs;
 
-use App\Customer;
-use App\Account;
-use App\Product;
-use App\Purchase;
-use App\Document;
-use App\JournalEntry;
-use App\Posting;
-use App\SubsidiaryLedger;
-use App\ReportLineItem;
+use App\Models\Customer;
+use App\Models\Account;
+use App\Models\Product;
+use App\Models\Purchase;
+use App\Models\Document;
+use App\Models\JournalEntry;
+use App\Models\Posting;
+use App\Models\SubsidiaryLedger;
+use App\Models\ReportLineItem;
 
 class CreateReceivedPayment
 {

@@ -3,7 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Invoice;
+use App\Models\Invoice;
 
     /**
      * @SuppressWarnings(PHPMD.ElseExpression)
@@ -46,14 +46,14 @@ class StoreReceivedPayment extends FormRequest
     {
         return [
             'date' => ['required', 'date'],
-            'customer_id' => ['required', 'exists:App\Customer,id'],
+            'customer_id' => ['required', 'exists:App\Models\Customer,id'],
             'number' => ['required', 'numeric', 'min:1'],
-            'account_id' => ['required', 'exists:App\Account,id'],
+            'account_id' => ['required', 'exists:App\Models\Account,id'],
             "item_lines.'payment'" => ['sometimes', 'min:1'],
             "item_lines.'invoice_id'.*" => [
                 'sometimes',
                 'required',
-                'exists:App\Invoice,id'
+                'exists:App\Models\Invoice,id'
             ],
             "item_lines.'payment'.*" => ['sometimes'],
         ];

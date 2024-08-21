@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Customer;
-use App\Invoice;
+use App\Models\Customer;
+use App\Models\Invoice;
 
 class AjaxController extends Controller
 {

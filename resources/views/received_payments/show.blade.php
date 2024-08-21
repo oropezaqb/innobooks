@@ -385,7 +385,7 @@
                                         @foreach ($receivedPayment->lines as $line)
                                             var line = <?php echo json_encode($line); ?>;
                                             var invoice = <?php 
-                                                $invoice = \App\Invoice::find($line['invoice_id']);
+                                                $invoice = \App\Models\Invoice::find($line['invoice_id']);
                                                 echo json_encode($invoice); ?>;
                                             var a = line['invoice_id'];
                                             var b = invoice['invoice_number'];
@@ -393,7 +393,7 @@
                                             var d = invoice['due_date'];
                                             var e = <?php 
                                                 $amountReceivable = $invoice->itemLines->sum('amount') + $invoice->itemLines->sum('output_tax');
-                                                $amountPaid = \DB::table('received_payment_lines')->where('invoice_id', $invoice->id)->sum('amount');
+                                                $amountPaid = \DB::table('received_payment_lines')->where('invoice_id', $invoice->id)->sum('amount') - \DB::table('received_payment_lines')->where('received_payment_id', $receivedPayment->id)->sum('amount');
                                                 $balance = $amountReceivable - $amountPaid;
                                                 echo json_encode($amountReceivable); ?>;
                                             var f = <?php echo json_encode($balance); ?>;

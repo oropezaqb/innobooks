@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\ReceivedPayment;
+use App\Models\ReceivedPayment;
 use Illuminate\Http\Request;
-use App\Customer;
-use App\Account;
-use App\Invoice;
+use App\Models\Customer;
+use App\Models\Account;
+use App\Models\Invoice;
 use Illuminate\Support\Facades\Validator;
 use JavaScript;
-use App\ReceivedPaymentLine;
+use App\Models\ReceivedPaymentLine;
 use App\Http\Requests\StoreReceivedPayment;
 use App\Jobs\CreateReceivedPayment;
 
@@ -24,9 +24,9 @@ class ReceivedPaymentController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
-        $this->middleware('company');
-        $this->middleware('web');
+//        $this->middleware('auth');
+//        $this->middleware('company');
+//        $this->middleware('web');
     }
     public function index()
     {
@@ -55,6 +55,8 @@ class ReceivedPaymentController extends Controller
     }
     public function store(StoreReceivedPayment $request)
     {
+        try {
+            \DB::transaction(function () use ($request) {
         $company = \Auth::user()->currentCompany->company;
         $receivedPayment = new ReceivedPayment([
             'company_id' => $company->id,
@@ -80,7 +82,12 @@ class ReceivedPaymentController extends Controller
         }
         $createRecvPayment = new CreateReceivedPayment();
         $createRecvPayment->recordJournalEntry($receivedPayment);
-        return redirect(route('received_payments.index'));
+            });
+            return redirect(route('received_payments.index'));
+        } catch (\Exception $e) {
+            return back()->with('status', $this->translateError($e))->withInput();
+        }
+//        return redirect(route('received_payments.index'));
     }
     public function show(ReceivedPayment $receivedPayment)
     {
@@ -107,9 +114,10 @@ class ReceivedPaymentController extends Controller
         $unpaidInvoicesIds = array();
         foreach ($invoices as $invoice) {
             $amountReceivable = $invoice->itemLines->sum('amount') + $invoice->itemLines->sum('output_tax');
-            $amountPaid = \DB::table('received_payment_lines')->where('invoice_id', $invoice->id)->sum('amount');
-            $balance = $amountReceivable - $amountPaid;
-            if ($amountReceivable > $amountPaid && !in_array($invoice->id, $recvPaymentInv)) {
+            $totalAmountPaid = \DB::table('received_payment_lines')->where('invoice_id', $invoice->id)->sum('amount');
+            $receivedPaymentTotalAmount = \DB::table('received_payment_lines')->where('received_payment_id', $receivedPayment->id)->sum('amount');
+            $balance = $amountReceivable - ($totalAmountPaid - $receivedPaymentTotalAmount);
+            if ($balance > 0 && !in_array($invoice->id, $recvPaymentInv)) {
                 $unpaidInvoicesIds[] = array(
                     'invoice_id' => $invoice->id,
                     'number' => $invoice->invoice_number,
