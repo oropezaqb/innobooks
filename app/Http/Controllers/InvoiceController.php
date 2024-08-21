@@ -2,19 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Invoice;
+use App\Models\Invoice;
 use Illuminate\Http\Request;
-use App\Customer;
-use App\Account;
-use App\Product;
+use App\Models\Customer;
+use App\Models\Account;
+use App\Models\Product;
 use Illuminate\Support\Facades\Validator;
 use JavaScript;
-use App\InvoiceItemLine;
+use App\Models\InvoiceItemLine;
 use App\Http\Requests\StoreInvoice;
-use App\Purchase;
-use App\Sale;
+use App\Models\Purchase;
+use App\Models\Sale;
 use App\Jobs\CreateInvoice;
-use App\Transaction;
+use App\Models\Transaction;
 
     /**
      * @SuppressWarnings(PHPMD.ElseExpression)
@@ -27,11 +27,11 @@ class InvoiceController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
-        $this->middleware('company');
-        $this->middleware('web');
-        $this->middleware('accountsReceivable');
-        $this->middleware('outputVat');
+//        $this->middleware('auth');
+//        $this->middleware('company');
+//        $this->middleware('web');
+//        $this->middleware('accountsReceivable');
+//        $this->middleware('outputVat');
     }
     public function index()
     {
@@ -153,7 +153,7 @@ class InvoiceController extends Controller
                 $createInvoice->updateLines($invoice);
                 $createInvoice->updateSales($salesForUpdate);
             });
-            return redirect(route('invoices.edit', [$invoice]))
+            return redirect(route('invoices.show', [$invoice]))
                 ->with('status', 'Invoice updated!');
         } catch (\Exception $e) {
             return back()->with('status', $this->translateError($e))->withInput();

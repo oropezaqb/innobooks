@@ -2,17 +2,17 @@
 
 namespace App\Jobs;
 
-use App\Customer;
-use App\Account;
-use App\Product;
-use App\Purchase;
-use App\Sale;
-use App\Document;
-use App\JournalEntry;
-use App\Posting;
-use App\SubsidiaryLedger;
-use App\Transaction;
-use App\InvoiceItemLine;
+use App\Models\Customer;
+use App\Models\Account;
+use App\Models\Product;
+use App\Models\Purchase;
+use App\Models\Sale;
+use App\Models\Document;
+use App\Models\JournalEntry;
+use App\Models\Posting;
+use App\Models\SubsidiaryLedger;
+use App\Models\Transaction;
+use App\Models\InvoiceItemLine;
 
     /**
      * @SuppressWarnings(PHPMD.ElseExpression)
