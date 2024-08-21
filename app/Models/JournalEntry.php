@@ -1,12 +1,20 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
 class JournalEntry extends Model
 {
+    protected $table = 'journal_entries';
     protected $guarded = [];
+    protected $fillable = [
+        'company_id',
+        'date',
+        'document_type_id',
+        'document_number',
+        'explanation',
+    ];
     public function path()
     {
         return route('journal_entries.show', $this);

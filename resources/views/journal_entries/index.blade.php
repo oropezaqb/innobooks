@@ -40,7 +40,7 @@
                                         @csrf
                                         @method('DELETE')
                                         <button class="btn btn-link" type="submit">Delete</button>
-                                    </form></div><div style="display:inline-block;">&nbsp;&nbsp;({{ $journalEntry->date }},&nbsp;{{ App\Document::where('id', $journalEntry->document_type_id)->firstOrFail()->name }}&nbsp;{{ $journalEntry->document_number }})&nbsp;{{ $journalEntry->explanation }}</div>
+                                    </form></div><div style="display:inline-block;">&nbsp;&nbsp;({{ $journalEntry->date }},&nbsp;{{ App\Models\Document::where('id', $journalEntry->document_type_id)->firstOrFail()->name }}&nbsp;{{ $journalEntry->document_number }})&nbsp;{{ $journalEntry->explanation }}</div>
                                 </div>
                             </div>
                         @empty

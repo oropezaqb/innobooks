@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\ReportLineItem;
+use App\Models\ReportLineItem;
 use Illuminate\Http\Request;
 
     /**
@@ -13,9 +13,9 @@ class ReportLineItemController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
-        $this->middleware('company');
-        $this->middleware('web');
+//        $this->middleware('auth');
+//        $this->middleware('company');
+//        $this->middleware('web');
     }
     public function index()
     {

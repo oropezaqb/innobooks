@@ -74,7 +74,7 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::resource('documents', DocumentController::class)->middleware(CheckCurrentCompany::class);
     Route::resource('subsidiary_ledgers', SubsidiaryLedgerController::class)->middleware(CheckCurrentCompany::class);
     Route::resource('report_line_items', ReportLineItemController::class)->middleware(CheckCurrentCompany::class);
-    Route::resource('journal_entries', JournalEntryController::class)->middleware(CheckCurrentCompany::class);
+    Route::resource('journal_entries', JournalEntryController::class);
     Route::resource('postings', PostingController::class)->middleware(CheckCurrentCompany::class);
     Route::resource('suppliers', SupplierController::class)->middleware(CheckCurrentCompany::class);
     Route::resource('products', ProductController::class)->middleware(CheckCurrentCompany::class);

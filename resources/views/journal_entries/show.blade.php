@@ -306,14 +306,14 @@
                                             }
                                             var d = posting['subsidiary_ledger_id'];
                                             var e = posting['report_line_item_id'];
-                                            var f = <?php echo json_encode(\App\Account::where('id', $posting->account_id)->firstOrFail()->title); ?>;
+                                            var f = <?php echo json_encode(\App\Models\Account::where('id', $posting->account_id)->firstOrFail()->title); ?>;
                                             var g = '';
                                             var h = '';
                                             @if (!is_null($posting->subsidiary_ledger_id))
-                                                g = <?php echo json_encode(\App\SubsidiaryLedger::where('id', $posting->subsidiary_ledger_id)->firstOrFail()->name); ?>;
+                                                g = <?php echo json_encode(\App\Models\SubsidiaryLedger::where('id', $posting->subsidiary_ledger_id)->firstOrFail()->name); ?>;
                                             @endif
                                             @if (!is_null($posting->report_line_item_id))
-                                                h = <?php echo json_encode(\App\ReportLineItem::where('id', $posting->report_line_item_id)->firstOrFail()->line_item); ?>;
+                                                h = <?php echo json_encode(\App\Models\ReportLineItem::where('id', $posting->report_line_item_id)->firstOrFail()->line_item); ?>;
                                             @endif
                                             if(a == null) {a = "";}
                                             if(b == null) {b = "";}

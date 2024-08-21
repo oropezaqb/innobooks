@@ -1,4 +1,5 @@
 @extends('layouts.app2')
+
 @section('content')
     <div class="col-md-10">
         <div class="card">
@@ -18,45 +19,52 @@
                                         </ul>
                                     </div>
                                 @endif
+
                                 <datalist id="account_ids">
                                     @foreach ($accounts as $account)
-                                        <option data-value={{ $account->id }}>{{ $account->title }} ({{ $account->number }})</option>
+                                        <option data-value="{{ $account->id }}">{{ $account->title }} ({{ $account->number }})</option>
                                     @endforeach
                                 </datalist>
+
                                 <datalist id="subsidiary_ledger_ids">
                                     @foreach ($subsidiaryLedgers as $subsidiaryLedger)
-                                        <option data-value={{ $subsidiaryLedger->id }}>{{ $subsidiaryLedger->name }} ({{ $subsidiaryLedger->number }})</option>
+                                        <option data-value="{{ $subsidiaryLedger->id }}">{{ $subsidiaryLedger->name }} ({{ $subsidiaryLedger->number }})</option>
                                     @endforeach
                                 </datalist>
+
                                 <datalist id="report_line_item_ids">
                                     @foreach ($reportLineItems as $reportLineItem)
-                                        <option data-value={{ $reportLineItem->id }}>{{ $reportLineItem->report }}, {{ !empty($reportLineItem->section) ? $reportLineItem->section : '' }}, {{ $reportLineItem->line_item }}</option>
+                                        <option data-value="{{ $reportLineItem->id }}">{{ $reportLineItem->report }}, {{ !empty($reportLineItem->section) ? $reportLineItem->section : '' }}, {{ $reportLineItem->line_item }}</option>
                                     @endforeach
                                 </datalist>
+
                                 <div class="form-group custom-control-inline">
                                     <label for="date">Date:&nbsp;</label>&nbsp;
-                                    <input type="date" class="form-control @error('date') is-danger @enderror" id="date" name="date" required value="{!! old('date') !!}">
+                                    <input type="date" class="form-control @error('date') is-invalid @enderror" id="date" name="date" required value="{{ old('date') }}">
                                 </div>
-                                <br>
+
                                 <div class="form-group custom-control-inline">
                                     <label for="document_type_id">Document&nbsp;Type:&nbsp;</label>&nbsp;
-                                    <input list="document_type_ids" id="document_type_id0" onchange="setValue(this)" data-id="" class="custom-select @error('document_type_id') is-danger @enderror" required value="{!! old('document_type_name') !!}">
+                                    <input list="document_type_ids" id="document_type_id0" onchange="setValue(this)" class="custom-select @error('document_type_id') is-invalid @enderror" required value="{{ old('document_type_name') }}">
                                     <datalist id="document_type_ids">
                                         @foreach ($documents as $document)
                                             <option data-value="{{ $document->id }}">{{ $document->name }}</option>
                                         @endforeach
                                     </datalist>
-                                    <input type="hidden" name="document_type_id" id="document_type_id0-hidden" value="{!! old('document_type_id') !!}">
-                                    <input type="hidden" name="document_type_name" id="name-document_type_id0-hidden" value="{!! old('document_type_name') !!}">
+                                    <input type="hidden" name="document_type_id" id="document_type_id0-hidden" value="{{ old('document_type_id') }}">
+                                    <input type="hidden" name="document_type_name" id="name-document_type_id0-hidden" value="{{ old('document_type_name') }}">
                                 </div>
+
                                 <div class="form-group custom-control-inline">
                                     <label for="document_number">Document&nbsp;Number:&nbsp;</label>&nbsp;
-                                    <input type="number" class="form-control" id="document_number" name="document_number" style="text-align: right;" required value="{!! old('document_number') !!}">
+                                    <input type="number" class="form-control" id="document_number" name="document_number" style="text-align: right;" required value="{{ old('document_number') }}">
                                 </div>
+
                                 <div class="form-group">
                                     <label for="explanation">Explanation: </label>
-                                    <textarea id="explanation" name="explanation" class="form-control" rows="4" cols="50" required>{!! old('explanation') !!}</textarea>
+                                    <textarea id="explanation" name="explanation" class="form-control" rows="4" cols="50" required>{{ old('explanation') }}</textarea>
                                 </div>
+
                                 <div class="form-group">
                                     <table id="lines" style="width:100%">
                                         <tr style="text-align: center;">
@@ -78,18 +86,21 @@
                                             <th>
                                                 <label for="postings['report_line_item_id'][]">Report Line Item</label>
                                             </th>
-                                        <tr>
+                                        </tr>
                                     </table>
                                 </div>
+
                                 <button class="btn btn-primary" type="submit">Save</button>
                             </form>
+
                             <br>
-                            <button id="addLines"  onclick="addLines('', '', '', '', '', '', '', '')" class="btn btn-secondary">Add Lines</button>&nbsp;&nbsp;
+                            <button id="addLines" onclick="addLines('', '', '', '', '', '', '', '')" class="btn btn-secondary">Add Lines</button>&nbsp;&nbsp;
                             <button id="deleteLines" onclick="deleteLines()" class="btn btn-secondary">Delete Lines</button>
+
                             <script>
                                 var line = 0;
-                                function setValue (id) 
-                                {
+
+                                function setValue(id) {
                                     var input = id,
                                         list = input.getAttribute('list'),
                                         options = document.querySelectorAll('#' + list + ' option'),
@@ -100,17 +111,17 @@
                                     hiddenInputName.value = label;
                                     hiddenInput.value = label;
 
-                                    for(var i = 0; i < options.length; i++) {
+                                    for (var i = 0; i < options.length; i++) {
                                         var option = options[i];
 
-                                        if(option.innerText === label) {
+                                        if (option.innerText === label) {
                                             hiddenInput.value = option.getAttribute('data-value');
                                             break;
                                         }
                                     }
                                 }
-                                function addLines(a, b, c, d, e, f, g, h) {
 
+                                function addLines(a, b, c, d, e, f, g, h) {
                                     var tr = document.createElement("tr");
                                     var table = document.getElementById("lines");
                                     table.appendChild(tr);
@@ -130,7 +141,6 @@
                                     accountInput.setAttribute("list", "account_ids");
                                     accountInput.setAttribute("id", "postings['account_id'][]" + line);
                                     accountInput.setAttribute("onchange", "setValue(this)");
-                                    accountInput.setAttribute("data-id", line);
                                     accountInput.setAttribute("class", "custom-select");
                                     accountInput.setAttribute("required", "required");
                                     accountInput.setAttribute("value", f);
@@ -183,7 +193,6 @@
                                     subsidiaryInput.setAttribute("list", "subsidiary_ledger_ids");
                                     subsidiaryInput.setAttribute("id", "postings['subsidiary_ledger_id'][]" + line);
                                     subsidiaryInput.setAttribute("onchange", "setValue(this)");
-                                    subsidiaryInput.setAttribute("data-id", line);
                                     subsidiaryInput.setAttribute("class", "custom-select");
                                     subsidiaryInput.setAttribute("value", g);
                                     td4.appendChild(subsidiaryInput);
@@ -209,7 +218,6 @@
                                     reportInput.setAttribute("list", "report_line_item_ids");
                                     reportInput.setAttribute("id", "postings['report_line_item_id'][]" + line);
                                     reportInput.setAttribute("onchange", "setValue(this)");
-                                    reportInput.setAttribute("data-id", line);
                                     reportInput.setAttribute("class", "custom-select");
                                     reportInput.setAttribute("value", h);
                                     td5.appendChild(reportInput);
@@ -230,34 +238,24 @@
 
                                     line++;
                                 }
+
                                 function myFunction() {
                                     var checkBox = document.getElementById("myCheck");
-                                    if (checkBox.checked == true)
-                                    {
-                                        var x = document.getElementsByClassName("deleteBox");
-                                        var i;
-                                        for (i = 0; i < x.length; i++) {
-                                            x[i].checked = true;
-                                        }
-                                    }
-                                    else
-                                    {
-                                        var x = document.getElementsByClassName("deleteBox");
-                                        var i;
-                                        for (i = 0; i < x.length; i++) {
-                                            x[i].checked = false;
-                                        }
+                                    var x = document.getElementsByClassName("deleteBox");
+                                    for (var i = 0; i < x.length; i++) {
+                                        x[i].checked = checkBox.checked;
                                     }
                                 }
-                                function deleteLines () {
+
+                                function deleteLines() {
                                     var x = document.getElementsByClassName("deleteBox");
-                                    var i;
-                                    for (i = 0; i < x.length; i++) {
+                                    for (var i = 0; i < x.length; i++) {
                                         if (x[i].checked) {
                                             x[i].parentNode.parentNode.remove();
                                         }
                                     }
                                 }
+
                                 @if (!empty(old('postings')))
                                     var a = <?php echo json_encode(old("postings.'account_id'")); ?>;
                                     var b = <?php echo json_encode(old("postings.'debit'")); ?>;
@@ -281,6 +279,7 @@
                                         addLines(a[i], b[i], c[i], d[i], e[i], f[i], g[i], h[i]);
                                     }
                                 @endif
+
                             </script>
                         </div>
                     </div>
