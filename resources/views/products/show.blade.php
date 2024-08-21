@@ -16,18 +16,18 @@
                             @method('PUT')
                             <div class="form-group">
                                 <label for="name">Product Name: </label>
-                                <input 
-                                    class="form-control @error('name') is-danger @enderror" 
-                                    type="text" 
-                                    name="name" 
+                                <input
+                                    class="form-control @error('name') is-danger @enderror"
+                                    type="text"
+                                    name="name"
                                     id="name" required readonly
                                     value="{!! $product->name !!}">
                                 @error('name')
                                     <p class="help is-danger">{{ $message }}</p>
                                 @enderror
                             </div>
-                            {!! Form::checkbox('track_quantity', true, $product->track_quantity, array('disabled')) !!}
-                            {!! Form::label('track_quantity', 'Track Quantity') !!}
+                            <input type="checkbox" name="track_quantity" id="track_quantity" {{ $product->track_quantity == 1 ? 'checked' : '' }} disabled>
+                            <label for="track_quantity">Track Quantity</label>
                             <br><br>
                             <div class="form-group custom-control-inline">
                                 <label for="receivable_account_id">Receivable&nbsp;Account:&nbsp;</label>&nbsp;

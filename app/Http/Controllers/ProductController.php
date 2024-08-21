@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\CurrentCompany;
-use App\Product;
-use App\Account;
+use App\Models\CurrentCompany;
+use App\Models\Product;
+use App\Models\Account;
 use App\Http\Requests\StoreProduct;
 
     /**
@@ -16,9 +16,9 @@ class ProductController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
-        $this->middleware('web');
-        $this->middleware('company');
+//        $this->middleware('auth');
+//        $this->middleware('web');
+//        $this->middleware('company');
     }
     public function index()
     {

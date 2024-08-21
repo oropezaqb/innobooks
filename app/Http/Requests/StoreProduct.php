@@ -3,7 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Account;
+use App\Models\Account;
 
 class StoreProduct extends FormRequest
 {
@@ -38,9 +38,9 @@ class StoreProduct extends FormRequest
     {
         return [
             'name' => ['required'],
-            'receivable_account_id' => ['required', 'exists:App\Account,id'],
+            'receivable_account_id' => ['required', 'exists:App\Models\Account,id'],
             'inventory_account_id' => ['sometimes'],
-            'income_account_id' => ['required', 'exists:App\Account,id'],
+            'income_account_id' => ['required', 'exists:App\Models\Account,id'],
             'expense_account_id' => ['sometimes'],
         ];
     }
