@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -17,7 +17,7 @@ class CreditNote extends Model
     }
     public function journalEntry()
     {
-        return $this->morphOne('App\JournalEntry', 'journalizable');
+        return $this->morphOne('App\Models\JournalEntry', 'journalizable');
     }
     public function invoice()
     {
@@ -25,15 +25,15 @@ class CreditNote extends Model
     }
     public function transaction()
     {
-        return $this->morphOne('App\Transaction', 'transactable');
+        return $this->morphOne('App\Models\Transaction', 'transactable');
     }
     public function salesReturns()
     {
-        return $this->morphMany('App\SalesReturn', 'returnable_sale');
+        return $this->morphMany('App\Models\SalesReturn', 'returnable_sale');
     }
     public function purchases()
     {
-        return $this->morphMany('App\Purchase', 'purchasable');
+        return $this->morphMany('App\Models\Purchase', 'purchasable');
     }
     public function delete()
     {

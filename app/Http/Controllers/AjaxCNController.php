@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\CreditNote;
+use App\Models\CreditNote;
 use Illuminate\Http\Request;
-use App\Customer;
-use App\Product;
+use App\Models\Customer;
+use App\Models\Product;
 use Illuminate\Support\Facades\Validator;
 use JavaScript;
-use App\CreditNoteLine;
+use App\Models\CreditNoteLine;
 use App\Http\Requests\StoreCreditNote;
 use App\Jobs\CreateCreditNote;
-use App\Invoice;
+use App\Models\Invoice;
 use App\Jobs\CreateInvoice;
 
     /**

@@ -433,7 +433,7 @@
                                             var c = line['quantity'];
                                             var d = line['amount'];
                                             var e = line['output_tax'];
-                                            var f = <?php echo json_encode(\App\Product::where('id', $line->product_id)->firstOrFail()->name); ?>;
+                                            var f = <?php echo json_encode(\App\Models\Product::where('id', $line->product_id)->firstOrFail()->name); ?>;
                                             if(a == null) {a = "";}
                                             if(b == null) {b = "";}
                                             if(c == null) {c = "";}

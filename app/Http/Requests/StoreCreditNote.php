@@ -3,7 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Product;
+use App\Models\Product;
 use App\Http\Requests\StoreCreditNote;
 use App\Jobs\CreateCreditNote;
 
@@ -44,12 +44,12 @@ class StoreCreditNote extends FormRequest
     public function rules()
     {
         return [
-            'invoice_id' => ['required', 'exists:App\Invoice,id'],
+            'invoice_id' => ['required', 'exists:App\Models\Invoice,id'],
             'date' => ['required', 'date'],
             'number' => ['required', 'numeric', 'min:1'],
             "item_lines.'product_id'.*" => [
                 'required',
-                'exists:App\Product,id'
+                'exists:App\Models\Product,id'
             ],
             "item_lines.'quantity'.*" => ['sometimes', 'numeric', 'nullable'],
             "item_lines.'amount'.*" => ['sometimes', 'numeric', 'nullable'],
