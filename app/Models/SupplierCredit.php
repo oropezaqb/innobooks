@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -25,11 +25,11 @@ class SupplierCredit extends Model
     }
     public function purchaseReturns()
     {
-        return $this->morphMany('App\PurchaseReturn', 'returnablepurc');
+        return $this->morphMany('App\Models\PurchaseReturn', 'returnablepurc');
     }
     public function journalEntry()
     {
-        return $this->morphOne('App\JournalEntry', 'journalizable');
+        return $this->morphOne('App\Models\JournalEntry', 'journalizable');
     }
     public function purchasable()
     {

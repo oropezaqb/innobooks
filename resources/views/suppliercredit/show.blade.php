@@ -24,25 +24,6 @@
                                         </ul>
                                     </div>
                                 @endif
-                                <datalist id="supplier_ids">
-                                    @foreach ($suppliers as $supplier)
-                                        <option data-value={{ $supplier->id }}>{{ $supplier->name }}</option>
-                                    @endforeach
-                                </datalist>
-                                <datalist id="account_ids">
-                                    @foreach ($accounts as $account)
-                                        <option data-value={{ $account->id }}>{{ $account->title }} ({{ $account->number }})</option>
-                                    @endforeach
-                                </datalist>
-                                <datalist id="product_ids">
-                                    @foreach ($products as $product)
-                                        <option data-value={{ $product->id }}>{{ $product->name }}</option>
-                                    @endforeach
-                                </datalist>
-                                <datalist id="purchasable_docs">
-                                    <option data-value="Bill">Bill</option>
-                                    <option data-value="Cheque">Cheque</option>
-                                </datalist>
                                 <div class="form-group custom-control-inline">
                                     <label for="purchasable_doc">Document</label>&nbsp;
                                     <input list="purchasable_docs" id="purchasable_doc0" onchange="setValue(this)" data-id="" class="custom-select @error('purchasable_doc') is-danger @enderror" required value="{!! old('purchasable_doc', class_basename($supplierCredit->purchasable)) !!}">
@@ -103,8 +84,6 @@
                                         <tr>
                                     </table>
                                 </div>
-                                <a class="btn btn-outline-secondary btn-sm" id="addCategoryLines"  onclick="addCategoryLines('', '', '', '', '', '', '', '')">Add Lines</a>&nbsp;&nbsp;
-                                <a class="btn btn-outline-secondary btn-sm" id="deleteCategoryLines" onclick="deleteCategoryLines()">Delete Lines</a>
                                 <br><br><br>
                                 <h6 class="font-weight-bold">Item details</h6>
                                 <div class="form-group">
@@ -131,8 +110,6 @@
                                         <tr>
                                     </table>
                                 </div>
-                                <a class="btn btn-outline-secondary btn-sm" id="addItemLines" onclick="addItemLines('', '', '', '', '', '', '', '')">Add Lines</a>&nbsp;&nbsp;
-                                <a class="btn btn-outline-secondary btn-sm" id="deleteItemLines" onclick="deleteItemLines()">Delete Lines</a>
                                 <br><br>
                                 <div class="form-group custom-control-inline" style="float: right; clear: both;">
                                     <label for="subtotal">Subtotal</label>&nbsp;
@@ -147,11 +124,19 @@
                                     <input id="total" type="text" width="15" readonly style="text-align: right;" class="form-control">
                                 </div>
                                 <br><br><br>
-                                <button class="btn btn-primary" type="submit" style="float: right; clear: both;">Save</button>
-                                <input type="hidden" name="product_id" id="product_id" value="">
-                                <input type="hidden" name="quantity_returned" id="quantity_returned" value="">
-                                <input type="hidden" name="supplier_credit_id" id="supplier_credit_id" value="{!! $supplierCredit->id  !!}">
                             </form>
+                            <div style="float: right; clear: both;">
+                                <div style="display: inline-block;">
+                                    <button class="btn btn-primary" onclick="location.href = '/suppliercredit/{{ $supplierCredit->id }}/edit';">Edit</button>
+                                </div>
+                                <div style="display: inline-block;">
+                                    <form method="POST" action="/suppliercredit/{{ $supplierCredit->id }}">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class="btn btn-danger" type="submit">Delete</button>
+                                    </form>
+                                </div>
+                            </div>
                             <script>
                                 var line = 0;
                                 var line2 = 0;

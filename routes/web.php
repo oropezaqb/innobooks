@@ -29,6 +29,7 @@ use App\Http\Controllers\CashReceiptController;
 use App\Http\Controllers\QueryController;
 use App\Http\Controllers\AjaxController;
 use App\Http\Controllers\AjaxCNController;
+use App\Http\Controllers\AjaxSCController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\CheckCurrentCompany;
 
@@ -60,8 +61,8 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::post('/received_payments/ajax-request', [AjaxController::class, 'store'])->middleware(CheckCurrentCompany::class);
     Route::post('/creditnote/getinvoice', [AjaxCNController::class, 'getInvoice'])->middleware(CheckCurrentCompany::class);
     Route::post('/creditnote/getamounts', [AjaxCNController::class, 'getAmounts'])->middleware(CheckCurrentCompany::class);
-    Route::post('/suppliercredit/getdocument', 'AjaxSCController@getDocument')->middleware(CheckCurrentCompany::class);
-    Route::post('/suppliercredit/getamounts', 'AjaxSCController@getAmounts')->middleware(CheckCurrentCompany::class);
+    Route::post('/suppliercredit/getdocument', [AjaxSCController::class, 'getDocument'])->middleware(CheckCurrentCompany::class);
+    Route::post('/suppliercredit/getamounts', [AjaxSCController::class, 'getAmounts'])->middleware(CheckCurrentCompany::class);
     Route::post('/inventory_qty_adjs/getquantities', 'AjaxInvQtyAdjController@getQuantities')->middleware(CheckCurrentCompany::class);
 });
 

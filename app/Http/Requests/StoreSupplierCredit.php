@@ -3,9 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Product;
-use App\Account;
-use App\Bill;
+use App\Models\Product;
+use App\Models\Account;
+use App\Models\Bill;
 use App\Jobs\CreateSupplierCredit;
 use App\Jobs\ValidateSCItemLines;
 
@@ -54,13 +54,13 @@ class StoreSupplierCredit extends FormRequest
             'number' => ['required', 'numeric', 'min:1'],
             "category_lines.'account_id'.*" => [
                 'required',
-                'exists:App\Account,id'
+                'exists:App\Models\Account,id'
             ],
             "category_lines.'amount'.*" => ['sometimes', 'numeric', 'nullable'],
             "category_lines.'input_tax'.*" => ['sometimes', 'numeric', 'nullable'],
             "item_lines.'product_id'.*" => [
                 'required',
-                'exists:App\Product,id'
+                'exists:App\Models\Product,id'
             ],
             "item_lines.'quantity'.*" => ['sometimes', 'numeric', 'nullable'],
             "item_lines.'amount'.*" => ['sometimes', 'numeric', 'nullable'],

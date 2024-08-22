@@ -2,20 +2,20 @@
 
 namespace App\Jobs;
 
-use App\Customer;
-use App\Account;
-use App\Product;
-use App\Document;
-use App\SubsidiaryLedger;
-use App\Transaction;
-use App\SupplierCreditCLine;
-use App\SupplierCreditILine;
-use App\InvoiceItemLine;
-use App\SalesReturn;
-use App\Invoice;
-use App\JournalEntry;
-use App\Posting;
-use App\Purchase;
+use App\Models\Customer;
+use App\Models\Account;
+use App\Models\Product;
+use App\Models\Document;
+use App\Models\SubsidiaryLedger;
+use App\Models\Transaction;
+use App\Models\SupplierCreditCLine;
+use App\Models\SupplierCreditILine;
+use App\Models\InvoiceItemLine;
+use App\Models\SalesReturn;
+use App\Models\Invoice;
+use App\Models\JournalEntry;
+use App\Models\Posting;
+use App\Models\Purchase;
 
     /**
      * @SuppressWarnings(PHPMD.ElseExpression)

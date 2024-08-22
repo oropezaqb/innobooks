@@ -3,9 +3,9 @@
 namespace App\Jobs;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Product;
-use App\Account;
-use App\Bill;
+use App\Models\Product;
+use App\Models\Account;
+use App\Models\Bill;
 use App\Jobs\CreateSupplierCredit;
 
     /**

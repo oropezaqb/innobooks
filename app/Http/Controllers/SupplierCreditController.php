@@ -2,19 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\SupplierCredit;
+use App\Models\SupplierCredit;
 use Illuminate\Http\Request;
-use App\Supplier;
-use App\Account;
-use App\Product;
+use App\Models\Supplier;
+use App\Models\Account;
+use App\Models\Product;
 use Illuminate\Support\Facades\Validator;
 use JavaScript;
-use App\SupplierCreditCLine;
-use App\SupplierCreditILine;
+use App\Models\SupplierCreditCLine;
+use App\Models\SupplierCreditILine;
 use App\Http\Requests\StoreSupplierCredit;
 use App\Jobs\CreateSupplierCredit;
 use App\Jobs\UpdateSales;
-use App\Bill;
+use App\Models\Bill;
 use App\Jobs\SaveSCLines;
 
     /**
@@ -236,7 +236,7 @@ class SupplierCreditController extends Controller
                 $updateSales = new UpdateSales();
                 $updateSales->updateSales($salesForUpdate);
             });
-            return redirect(route('suppliercredit.edit', [$suppliercredit]))
+            return redirect(route('suppliercredit.show', [$suppliercredit]))
                 ->with('status', 'Supplier credit updated!');
         } catch (\Exception $e) {
             return back()->with('status', $this->translateError($e))->withInput();
