@@ -3,7 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Product;
+use App\Models\Product;
 use App\Jobs\CreateInventoryQtyAdj;
 
     /**
@@ -46,7 +46,7 @@ class StoreInventoryQtyAdj extends FormRequest
             'number' => ['required', 'numeric', 'min:1'],
             "item_lines.'product_id'.*" => [
                 'required',
-                'exists:App\Product,id'
+                'exists:App\Models\Product,id'
             ],
             "item_lines.'change_in_qty'.*" => ['sometimes', 'numeric', 'nullable'],
         ];

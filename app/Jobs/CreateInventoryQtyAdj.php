@@ -2,19 +2,19 @@
 
 namespace App\Jobs;
 
-use App\Account;
-use App\Product;
-use App\Document;
-use App\SubsidiaryLedger;
-use App\Transaction;
-use App\InventoryQtyAdjLine;
-use App\InvoiceItemLine;
-use App\SalesReturn;
-use App\Invoice;
-use App\JournalEntry;
-use App\Posting;
-use App\Purchase;
-use App\Sale;
+use App\Models\Account;
+use App\Models\Product;
+use App\Models\Document;
+use App\Models\SubsidiaryLedger;
+use App\Models\Transaction;
+use App\Models\InventoryQtyAdjLine;
+use App\Models\InvoiceItemLine;
+use App\Models\SalesReturn;
+use App\Models\Invoice;
+use App\Models\JournalEntry;
+use App\Models\Posting;
+use App\Models\Purchase;
+use App\Models\Sale;
 
     /**
      * @SuppressWarnings(PHPMD.ElseExpression)
@@ -215,11 +215,14 @@ class CreateInventoryQtyAdj
     {
         $inventoryQtyAdj->journalEntry->delete();
         $inventoryQtyAdj->transaction->delete();
-        //foreach ($inventoryQtyAdj->salesReturns as $salesReturn) {
-        //    $salesReturn->delete();
-        //}
+        foreach ($inventoryQtyAdj->sales as $sales) {
+            $sales->delete();
+        }
         foreach ($inventoryQtyAdj->purchases as $purchase) {
             $purchase->delete();
+        }
+        foreach ($inventoryQtyAdj->lines as $lines) {
+            $lines->delete();
         }
     }
 }

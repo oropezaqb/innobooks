@@ -148,7 +148,7 @@ return new class extends Migration
                 '520 - Operating Expense',
                 '590 - Income Tax Expense'
             ]);
-            $table->unsignedBigInteger('line_item_id');
+            $table->unsignedBigInteger('line_item_id')->nullable();
             $table->boolean('subsidiary_ledger');
             $table->foreign('company_id')
                 ->references('id')

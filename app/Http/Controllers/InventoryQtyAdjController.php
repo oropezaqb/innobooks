@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\InventoryQtyAdj;
+use App\Models\InventoryQtyAdj;
 use Illuminate\Http\Request;
-use App\Account;
-use App\Product;
+use App\Models\Account;
+use App\Models\Product;
 use Illuminate\Support\Facades\Validator;
 use JavaScript;
-use App\InventoryQtyAdjLine;
+use App\Models\InventoryQtyAdjLine;
 use App\Http\Requests\StoreInventoryQtyAdj;
 use App\Jobs\CreateInventoryQtyAdj;
 use App\Jobs\UpdateSales;
@@ -24,11 +24,11 @@ class InventoryQtyAdjController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
-        $this->middleware('company');
-        $this->middleware('web');
+//        $this->middleware('auth');
+//        $this->middleware('company');
+//        $this->middleware('web');
     }
-    
+
     /**
      * Display a listing of the resource.
      *
@@ -60,9 +60,11 @@ class InventoryQtyAdjController extends Controller
         $company = \Auth::user()->currentCompany->company;
         $accounts = Account::where('company_id', $company->id)->latest()->get();
         $products = Product::where('company_id', $company->id)->latest()->get();
-        $inventoryShrinkageAcct = Account::firstOrCreate(['title' 
-            => 'Inventory Shrinkage', 'company_id' => $company->id], ['number' 
-            => '510', 'subsidiary_ledger' => false]);
+        $inventoryShrinkageAcct = Account::firstOrCreate([
+            'title'=> 'Inventory Shrinkage',
+            'company_id' => $company->id],
+            ['number' => '510',
+            'subsidiary_ledger' => false]);
         return view(
             'inventory_qty_adjs.create',
             compact('accounts', 'products', 'inventoryShrinkageAcct')
@@ -130,7 +132,13 @@ class InventoryQtyAdjController extends Controller
      */
     public function show(InventoryQtyAdj $inventoryQtyAdj)
     {
-        //
+        $company = \Auth::user()->currentCompany->company;
+        $accounts = Account::where('company_id', $company->id)->latest()->get();
+        $products = Product::where('company_id', $company->id)->latest()->get();
+        return view(
+            'inventory_qty_adjs.show',
+            compact('inventoryQtyAdj', 'accounts', 'products')
+        );
     }
 
     /**
@@ -157,9 +165,36 @@ class InventoryQtyAdjController extends Controller
      * @param  \App\InventoryQtyAdj  $inventoryQtyAdj
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, InventoryQtyAdj $inventoryQtyAdj)
+    public function update(StoreInventoryQtyAdj $request, InventoryQtyAdj $inventoryQtyAdj)
     {
-        //
+        try {
+            \DB::transaction(function () use ($request, $inventoryQtyAdj) {
+                $inventoryQtyAdj = $inventoryQtyAdj;
+                $company = \Auth::user()->currentCompany->company;
+                $inventoryQtyAdj->update([
+                    'company_id' => $company->id,
+                    'date' => request('date'),
+                    'number' => request('number'),
+                    'account_id' => request('account_id'),
+                ]);
+                $inventoryQtyAdj->save();
+                $createInventoryQtyAdj = new CreateInventoryQtyAdj();
+                $createInventoryQtyAdj->deleteInventoryQtyAdj($inventoryQtyAdj);
+                $createInventoryQtyAdj->updateLines($inventoryQtyAdj);
+                $createInventoryQtyAdj->recordTransaction($inventoryQtyAdj);
+                $salesForUpdate = \DB::table('transactions')->where('company_id', $company->id)
+                    ->where('date', '>=', request('date'))->orderBy('date', 'asc')->get();
+                $updateSales = new UpdateSales();
+                $updateSales->updateSales($salesForUpdate);
+            });
+            return redirect(route('inventory_qty_adjs.show', [$inventoryQtyAdj]))
+                ->with('status', 'Inventory Quantity Adjustment updated!');
+        } catch (\Exception $e) {
+            return back()->with('status', $this->translateError($e))->withInput();
+        }
+        //} catch (\Exception $e) {
+        //    return back()->with('status', $this->translateError($e))->withInput();
+        //}
     }
 
     /**

@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -17,15 +17,15 @@ class InventoryQtyAdj extends Model
     }
     public function sales()
     {
-        return $this->morphMany('App\Sale', 'salable');
+        return $this->morphMany('App\Models\Sale', 'salable');
     }
     public function purchases()
     {
-        return $this->morphMany('App\Purchase', 'purchasable');
+        return $this->morphMany('App\Models\Purchase', 'purchasable');
     }
     public function journalEntry()
     {
-        return $this->morphOne('App\JournalEntry', 'journalizable');
+        return $this->morphOne('App\Models\JournalEntry', 'journalizable');
     }
     public function account()
     {
@@ -33,7 +33,7 @@ class InventoryQtyAdj extends Model
     }
     public function transaction()
     {
-        return $this->morphOne('App\Transaction', 'transactable');
+        return $this->morphOne('App\Models\Transaction', 'transactable');
     }
     public function delete()
     {

@@ -82,9 +82,20 @@
                                 <a class="btn btn-outline-secondary btn-sm" id="addItemLines" onclick="addItemLines('', '', '', '', '', '', '', '')">Add Lines</a>&nbsp;&nbsp;
                                 <a class="btn btn-outline-secondary btn-sm" id="deleteItemLines" onclick="deleteItemLines()">Delete Lines</a>
                                 <br><br><br>
-                                <button class="btn btn-primary" type="submit" style="float: right; clear: both;">Save</button>
                                 <input type="hidden" name="product_id" id="product_id" value="">
                             </form>
+                            <div style="float: right; clear: both;">
+                                <div style="display: inline-block;">
+                                    <button class="btn btn-primary" onclick="location.href = '/inventory_qty_adjs/{{ $inventoryQtyAdj->id }}/edit';">Edit</button>
+                                </div>
+                                <div style="display: inline-block;">
+                                    <form method="POST" action="/inventory_qty_adjs/{{ $inventoryQtyAdj->id }}">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class="btn btn-danger" type="submit">Delete</button>
+                                    </form>
+                                </div>
+                            </div>
                             <script>
                                 var line = 0;
                                 var line2 = 0;
