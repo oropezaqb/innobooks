@@ -217,7 +217,7 @@ class CreateCreditNote
                     $company = \Auth::user()->currentCompany->company;
                     $purchase = new Purchase([
                         'company_id' => $company->id,
-                        'date' => request('date'),
+                        'date' => $creditNote->date,
                         'product_id' => $salesReturn->product_id,
                         'quantity' => $salesReturn->quantity,
                         'amount' => $salesReturn->amount

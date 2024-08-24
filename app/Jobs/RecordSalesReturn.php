@@ -29,7 +29,7 @@ class RecordSalesReturn
                     $numberRecorded = 0;
                     do {
                         $company = \Auth::user()->currentCompany->company;
-                        $sale = $this->determineSaleReturned($company, $product);
+                        $sale = $this->determineSaleReturned($company, $product, $creditNote);
                         if (is_object($sale)) {
                             $numberUnrecorded = $input['item_lines']["'quantity'"][$row] - $numberRecorded;
                             $quantity = $this->determineQtyReturned($company, $sale, $numberUnrecorded);
@@ -52,9 +52,9 @@ class RecordSalesReturn
             }
         }
     }
-    public function determineSaleReturned($company, $product)
+    public function determineSaleReturned($company, $product, $creditNote)
     {
-        $invoice = Invoice::find(request('invoice_id'));
+        $invoice = Invoice::find($creditNote->invoice_id);
         $sales = $invoice->sales;
         foreach ($sales as $sale) {
             if ($sale->product_id == $product->id) {

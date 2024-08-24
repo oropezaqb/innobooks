@@ -70,21 +70,21 @@ class CreateSupplierCredit
         $amtReturnForThisSC = 0;
         if (!is_null($supplierCreditId)) {
             $amtReturnForThisSC = SupplierCreditCLine::where('supplier_credit_id', $supplierCreditId)
-                ->where('purchasable_type', 'App\Bill')
+                ->where('purchasable_type', 'App\Models\Bill')
                 ->where('purchasable_id', $docId)
                 ->where('account_id', $account->id)->sum('amount');
         }
-        $amountReturned = SupplierCreditCLine::where('purchasable_type', 'App\Bill')
+        $amountReturned = SupplierCreditCLine::where('purchasable_type', 'App\Models\Bill')
             ->where('purchasable_id', $docId)
             ->where('account_id', $account->id)->sum('amount');
         $taxReturnForThisSC = 0;
         if (!is_null($supplierCreditId)) {
             $taxReturnForThisSC = SupplierCreditCLine::where('supplier_credit_id', $supplierCreditId)
-                ->where('purchasable_type', 'App\Bill')
+                ->where('purchasable_type', 'App\Models\Bill')
                 ->where('purchasable_id', $docId)
                 ->where('account_id', $account->id)->sum('input_tax');
         }
-        $taxReturned = SupplierCreditCLine::where('purchasable_type', 'App\Bill')
+        $taxReturned = SupplierCreditCLine::where('purchasable_type', 'App\Models\Bill')
             ->where('purchasable_id', $docId)
             ->where('account_id', $account->id)->sum('input_tax');
         $amountUnreturned = $amountPurchased - ($amountReturned - $amtReturnForThisSC);
@@ -141,31 +141,31 @@ class CreateSupplierCredit
         $qtyReturnForThisSC = 0;
         if (!is_null($supplierCreditId)) {
             $qtyReturnForThisSC = SupplierCreditILine::where('supplier_credit_id', $supplierCreditId)
-                ->where('purchasable_type', 'App\Bill')
+                ->where('purchasable_type', 'App\Models\Bill')
                 ->where('purchasable_id', $docId)
                 ->where('product_id', $product->id)->sum('quantity');
         }
-        $quantityReturned = SupplierCreditILine::where('purchasable_type', 'App\Bill')
+        $quantityReturned = SupplierCreditILine::where('purchasable_type', 'App\Models\Bill')
             ->where('purchasable_id', $docId)
             ->where('product_id', $product->id)->sum('quantity');
         $amtReturnForThisSC = 0;
         if (!is_null($supplierCreditId)) {
             $amtReturnForThisSC = SupplierCreditILine::where('supplier_credit_id', $supplierCreditId)
-                ->where('purchasable_type', 'App\Bill')
+                ->where('purchasable_type', 'App\Models\Bill')
                 ->where('purchasable_id', $docId)
                 ->where('product_id', $product->id)->sum('amount');
         }
-        $amountReturned = SupplierCreditILine::where('purchasable_type', 'App\Bill')
+        $amountReturned = SupplierCreditILine::where('purchasable_type', 'App\Models\Bill')
             ->where('purchasable_id', $docId)
             ->where('product_id', $product->id)->sum('amount');
         $taxReturnForThisSC = 0;
         if (!is_null($supplierCreditId)) {
             $taxReturnForThisSC = SupplierCreditILine::where('supplier_credit_id', $supplierCreditId)
-                ->where('purchasable_type', 'App\Bill')
+                ->where('purchasable_type', 'App\Models\Bill')
                 ->where('purchasable_id', $docId)
                 ->where('product_id', $product->id)->sum('input_tax');
         }
-        $taxReturned = SupplierCreditILine::where('purchasable_type', 'App\Bill')
+        $taxReturned = SupplierCreditILine::where('purchasable_type', 'App\Models\Bill')
             ->where('purchasable_id', $docId)
             ->where('product_id', $product->id)->sum('input_tax');
         $quantityUnreturned = $quantityPurchased - ($quantityReturned - $qtyReturnForThisSC);
