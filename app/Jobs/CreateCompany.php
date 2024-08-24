@@ -10,6 +10,7 @@ use App\Models\CurrentCompany;
 use App\Models\Document;
 use App\Models\LineItem;
 use App\Models\Account;
+use App\Models\ReportLineItem;
 
     /**
      * @SuppressWarnings(PHPMD.ElseExpression)
@@ -24,13 +25,13 @@ class CreateCompany
         $user = \Auth::user();
         $company->employ($user);
         $approveApplication = Ability::firstOrCreate(['name'
-            => 'approve_job_application', 'company_id' => $company->id]);
+            => 'create_company_users', 'company_id' => $company->id]);
         $admin = Role::firstOrCreate(['name' => 'admin', 'company_id' => $company->id]);
         $admin->allowTo($approveApplication);
         $user->assignRole($admin);
         $recordJournalEntries = Ability::firstOrCreate(['name'
-            => 'record_journal_entries', 'company_id' => $company->id]);
-        $staff = Role::firstOrCreate(['name' => 'staff', 'company_id' => $company->id]);
+            => 'create_journal_entries', 'company_id' => $company->id]);
+        $staff = Role::firstOrCreate(['name' => 'bookkeeper', 'company_id' => $company->id]);
         $staff->allowTo($recordJournalEntries);
         $approveApplication->save();
         $admin->save();
@@ -182,6 +183,13 @@ class CreateCompany
                 'subsidiary_ledger' => false
             ),
             array(
+                'number' => 140400,
+                'title' => 'Input VAT',
+                'type' => '120 - Non-Cash Current Asset',
+                'line_item' => 'Other current assets',
+                'subsidiary_ledger' => false
+            ),
+            array(
                 'number' => 1500001,
                 'title' => 'Building',
                 'type' => '150 - Non-Current Asset',
@@ -264,6 +272,13 @@ class CreateCompany
                 'type' => '210 - Current Liabilities',
                 'line_item' => 'Trade and other payables',
                 'subsidiary_ledger' => true
+            ),
+            array(
+                'number' => 230011,
+                'title' => 'Output VAT',
+                'type' => '210 - Current Liabilities',
+                'line_item' => 'Trade and other payables',
+                'subsidiary_ledger' => false
             ),
             array(
                 'number' => 220001,
@@ -544,6 +559,113 @@ class CreateCompany
                 'subsidiary_ledger' => $account['subsidiary_ledger']
             ]);
             $accountForSaving->save();
+        }
+        $reportLineItems = array(
+            array(
+                'report' => 'Statement of Cash Flows',
+                'section' => 'Cash Flows from (to) Operating Activities',
+                'line_item' => 'Cash receipts from customers'
+            ),
+            array(
+                'report' => 'Statement of Cash Flows',
+                'section' => 'Cash Flows from (to) Operating Activities',
+                'line_item' => 'Cash paid to suplliers'
+            ),
+            array(
+                'report' => 'Statement of Cash Flows',
+                'section' => 'Cash Flows from (to) Operating Activities',
+                'line_item' => 'Cash paid to employees'
+            ),
+            array(
+                'report' => 'Statement of Cash Flows',
+                'section' => 'Cash Flows from (to) Operating Activities',
+                'line_item' => 'Cash paid for interests'
+            ),
+            array(
+                'report' => 'Statement of Cash Flows',
+                'section' => 'Cash Flows from (to) Operating Activities',
+                'line_item' => 'Cash paid for income taxes'
+            ),
+            array(
+                'report' => 'Statement of Cash Flows',
+                'section' => 'Cash Flows from (to) Investing Activities',
+                'line_item' => 'Purchase of property, plant & equipment'
+            ),
+            array(
+                'report' => 'Statement of Cash Flows',
+                'section' => 'Cash Flows from (to) Investing Activities',
+                'line_item' => 'Proceeds from sale of equipment'
+            ),
+            array(
+                'report' => 'Statement of Cash Flows',
+                'section' => 'Cash Flows from (to) Financing Activities',
+                'line_item' => 'Proceeds from issuance of common stock'
+            ),
+            array(
+                'report' => 'Statement of Cash Flows',
+                'section' => 'Cash Flows from (to) Financing Activities',
+                'line_item' => 'Proceeds from issuance of long-term debt'
+            ),
+            array(
+                'report' => 'Statement of Cash Flows',
+                'section' => 'Cash Flows from (to) Financing Activities',
+                'line_item' => 'Principal payments for long-term debt'
+            ),
+            array(
+                'report' => 'Statement of Cash Flows',
+                'section' => 'Cash Flows from (to) Financing Activities',
+                'line_item' => 'Principal payments under capital lease obligation'
+            ),
+            array(
+                'report' => 'Statement of Cash Flows',
+                'section' => 'Cash Flows from (to) Financing Activities',
+                'line_item' => 'Dividends paid'
+            ),
+            array(
+                'report' => "Statement of Owners' Equity",
+                'section' => '',
+                'line_item' => 'Dividends paid'
+            ),
+            array(
+                'report' => "Statement of Owners' Equity",
+                'section' => '',
+                'line_item' => 'Stock Issuance'
+            ),
+            array(
+                'report' => "Statement of Owners' Equity",
+                'section' => '',
+                'line_item' => 'Unrealized gains or losses on AFS investments'
+            ),
+            array(
+                'report' => "Statement of Owners' Equity",
+                'section' => '',
+                'line_item' => 'Foreign currency translation adjustments'
+            ),
+            array(
+                'report' => "Statement of Owners' Equity",
+                'section' => '',
+                'line_item' => 'Pension liability adjustments'
+            ),
+            array(
+                'report' => "Statement of Owners' Equity",
+                'section' => '',
+                'line_item' => 'Sale of Treasury Stocks'
+            ),
+            array(
+                'report' => "Statement of Owners' Equity",
+                'section' => '',
+                'line_item' => 'Stock repurchases'
+            )
+        );
+        foreach($reportLineItems as $reportLineItem)
+        {
+            $reportLineItemForSaving = new ReportLineItem([
+                'company_id' => $company->id,
+                'report' => $reportLineItem['report'],
+                'section' => $reportLineItem['section'],
+                'line_item' => $reportLineItem['line_item']
+            ]);
+            $reportLineItemForSaving->save();
         }
     }
 }

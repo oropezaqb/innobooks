@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -21,7 +21,7 @@ class CashReceipt extends Model
     }
     public function journalEntry()
     {
-        return $this->morphOne('App\JournalEntry', 'journalizable');
+        return $this->morphOne('App\Models\JournalEntry', 'journalizable');
     }
     public function delete()
     {

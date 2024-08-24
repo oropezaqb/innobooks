@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\CashReceipt;
-use App\Account;
-use App\SubsidiaryLedger;
+use App\Models\CashReceipt;
+use App\Models\Account;
+use App\Models\SubsidiaryLedger;
 use Illuminate\Http\Request;
 
 class CashReceiptController extends Controller

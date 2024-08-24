@@ -86,7 +86,7 @@
                                 <br><br>
                                 <div class="form-group custom-control-inline">
                                     <label for="memo">Memo: </label>
-                                    <textarea id="memo" name="memo" class="form-control" rows="2" cols="20" required>{!! old('memo') !!}</textarea>
+                                    <textarea id="memo" name="memo" class="form-control" rows="2" cols="20">{!! old('memo') !!}</textarea>
                                 </div>
                                 <br>
                                 <div class="form-group custom-control-inline" style="float: right; clear: both;">
