@@ -209,7 +209,7 @@ class CreateCreditNote
     }
     public function recordPurchases($creditNote)
     {
-        $salesReturns = $creditNote->salesReturns;
+        $salesReturns = $creditNote->lines;
         if (!is_null($salesReturns)) {
             foreach ($salesReturns as $salesReturn) {
                 $product = Product::find($salesReturn->product_id);

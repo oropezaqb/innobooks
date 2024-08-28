@@ -110,6 +110,7 @@ class CreateInventoryQtyAdj
     {
         $allPurchases = Purchase::where('company_id', $company->id)->where('product_id', $product->id)->get();
         $purchases = $allPurchases->sortBy('date');
+dd($allPurchases);
         foreach ($purchases as $purchase) {
             $numberSold = Sale::where('company_id', $company->id)->where('purchase_id', $purchase->id)->sum('quantity');
             if ($numberSold < $purchase->quantity) {
